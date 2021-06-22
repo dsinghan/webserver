@@ -1,0 +1,45 @@
+Name: Dhruv Singhania
+Email: singhania_dhruv@yahoo.com
+UID: 105125631
+
+-----High Level Design-----
+Create server socket
+Bind server socket
+Listen on server socket
+Loop:
+    Reset all read and write buffers
+    Accept client socket
+    Read request from client socket
+    Parse client request
+    Check request method
+    Check request path
+    Open and read file at path
+    Create server response
+    Write response to client socket
+    Close client socket
+
+-----Problems Encountered-----
+One problem I encountered was displaying large image files on the browser.
+I was using strlen() to send the correct amount from my write buffer to the
+client socket, but since image files do not follow the ASCII format, strlen()
+was only capturing a portion of my buffer (maybe by encountering a null
+character before the actual EOF) and thus my image file was not being displayed.
+I changed my code to make use of a offset that would keep track of the size of
+my buffer, and doing so sent my entire file over and fixed the problem.
+
+Another problem I encountered was transmitting binary files. My code extracted
+the file extension and compared it with all the possible extensions before 
+updating the content type accordingly. However, binary files do not have an
+extension, and for those cases I was comparing a null value through my if 
+statements, which broke my code. After checking for the null binary case in
+the start instead of the end, I was able to avoid this occurrence and that
+fixed the problem.
+
+One other problem I encountered was not being able to use the same port after
+shutdown because it would be "not available" or "busy." To solve this problem
+I made use of SO_REUSEADDR which allowed me to start listening on a busy port
+immediately without having to wait for the timeout, which fixed the problem.
+
+-----References-----
+https://stackoverflow.com/questions/24194961/how-do-i-use-setsockoptso-reuseaddr
+https://www.tutorialspoint.com/c_standard_library/string_h.htm
