@@ -1,6 +1,8 @@
 Name: Dhruv Singhania
 Email: singhania_dhruv@yahoo.com
-UID: 105125631
+
+Description:
+        This program acts as a simple webserver, where the client (browser) can issue GET requests to the server for files.
 
 -----High Level Design-----
 Create server socket
